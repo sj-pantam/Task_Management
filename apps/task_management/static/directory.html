@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directory</title>
+    <link rel="stylesheet" href="../static/css/directory.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="../static/js/directory.js" defer></script>
+</head>
+<body>
+    <div id="app" class="container">
+        <h1>User Directory</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Profile Picture</th>
+                    <th>Username</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Manager's Username</th>
+                    <th>Manager's Full Name</th>
+                    <th>Manager's Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="user in users" :key="user.username">
+                    <td>
+                        <div class="thumbnail">
+                            <img :src="user.thumbnail" alt="Profile Picture" v-if="user.thumbnail">
+                            <div class="thumbnail-placeholder" v-else></div>
+                        </div>
+                    </td>
+                    <td><a :href="getBaseURL() + '/' + user.username + '/profile'">{{ user.username }}</a></td>
+                    <td>{{ user.first_name }} {{ user.last_name }}</td>
+                    <td><a :href="'mailto:' + user.email">{{ user.email }}</a></td>
+                    <td>{{ user.manager_username }}</td>
+                    <td>{{ user.manager_first_name }} {{ user.manager_last_name }}</td>
+                    <td><a :href="'mailto:' + user.manager_email">{{ user.manager_email }}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

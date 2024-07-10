@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Detail</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+    <div class="container" id="app">
+        <header>
+            <h1>Task Detail</h1>
+            <button @click="goBack">Back to Tasks</button>
+        </header>
+        <main>
+            <div v-if="task">
+                <h2>{{ task.title }}</h2>
+                <p><strong>Description:</strong> {{ task.description }}</p>
+                <p><strong>Status:</strong> {{ task.status }}</p>
+                <p><strong>Deadline:</strong> {{ task.deadline }}</p>
+                <p><strong>Assigned To:</strong> {{ task.assigned_to_name }}</p>
+                <button v-if="canEdit" @click="editTask">Edit Task</button>
+                <p v-else class="not-authorized-message">You are not authorized to edit this task.</p>
+            </div>
+            <div>
+                <h3>Comments</h3>
+                <ul>
+                    <li v-for="comment in comments" :key="comment.id">
+                        {{ comment.comment_text }}
+
+                        -- {{comment.author}}
+                    </li>
+                </ul>
+                <form @submit.prevent="addComment">
+                    <textarea v-model="newComment" required></textarea>
+                    <button type="submit">Add Comment</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="js/task_detail.js"></script>
+</body>
+</html>

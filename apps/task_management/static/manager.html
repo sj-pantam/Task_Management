@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Info</title>
+    <link rel="stylesheet" href="../static/css/manager.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="../static/js/manager.js" defer></script>
+</head>
+<body>
+    <div id="app" class="container">
+        <div class="profile-info" v-if="manager">
+            <div class="thumbnail">
+                <img :src="img_url" alt="Manager Picture" v-if="img_url">
+                <div class="thumbnail-placeholder" v-else></div>
+            </div>
+            <h2>Manager Information</h2>
+            <p><strong>Username:</strong> <a :href="getBaseURL() + '/' + manager.username + '/profile'">{{ manager.username }}</a></p>
+            <p><strong>Name:</strong> {{ manager.first_name }} {{ manager.last_name }}</p>
+            <p><strong>Email:</strong> <a :href="'mailto:' + manager.email">{{ manager.email }}</a></p>
+        </div>
+        <div v-else>
+            <p>No manager assigned.</p>
+        </div>
+    </div>
+</body>
+</html>

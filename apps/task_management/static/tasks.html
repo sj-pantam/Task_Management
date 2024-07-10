@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasks</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .content {
+            display: flex;
+            width: 100%;
+        }
+        aside {
+            width: 25%;
+            padding-right: 20px;
+            margin-right: 80px;
+        }
+        main {
+            width: calc(75% - 20px);
+        }
+        .task-list__title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .task-list__items {
+            list-style: none;
+            padding: 0;
+        }
+        .task-list__item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            cursor: pointer;
+        }
+        .task-list__item-details {
+            max-width: 70%;
+        }
+        .task-list__item-title {
+            font-weight: bold;
+            margin: 0;
+        }
+        .task-list__item-deadline {
+            margin: 0;
+        }
+        .task-list__item-status {
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .task-list__item-status--completed {
+            color: green;
+        }
+        .task-list__item-status--pending {
+            color: orange;
+        }
+        .task-list__item-status--rejected {
+            color: red;
+        }
+        .task-list__item-status--acknowledged {
+            color: gray;
+        }
+        .task-list__item-status--failed {
+            color: red;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+        .header-right button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <header>
+            <h1>Task Manager</h1>
+            <div class="header-right">
+                <button @click="goToCreateTask">Create Task</button>
+            </div>
+        </header>
+        <div class="content">
+            <aside>
+                <h2>Filters</h2>
+                <form @submit.prevent="fetchTasks" id="filters-form">
+                    <label for="created_by">Created By:</label>
+                    <select v-model="filters.created_by" id="created_by" name="created_by">
+                        <option value="">Any</option>
+                        <option v-for="user in users" :value="user.id">{{ user.name }}</option>
+                    </select>
+                   
+                    <label for="assigned_to">Assigned To:</label>
+                    <select v-model="filters.assigned_to" id="assigned_to" name="assigned_to">
+                        <option value="">Any</option>
+                        <option v-for="user in users" :value="user.id">{{ user.name }}</option>
+                    </select>
+                   
+                    <label for="status">Status:</label>
+                    <select v-model="filters.status" id="status" name="status">
+                        <option value="">Any</option>
+                        <option value="pending">Pending</option>
+                        <option value="acknowledged">Acknowledged</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="completed">Completed</option>
+                        <option value="failed">Failed</option>
+                    </select>
+                   
+                    <label for="date_created">Date Created:</label>
+                    <input type="date" v-model="filters.date_created" id="date_created" name="date_created">
+                   
+                    <label for="deadline">Deadline:</label>
+                    <input type="date" v-model="filters.deadline" id="deadline" name="deadline">
+                   
+                    <button type="submit">Apply Filters</button>
+                </form>
+            </aside>
+            <main>
+                <div class="task-list">
+                    <h2 class="task-list__title">All Tasks</h2>
+                    <ul class="task-list__items">
+                        <li
+                            v-for="task in tasks"
+                            :key="task.id"
+                            class="task-list__item"
+                            @click="goToTaskDetail(task.id)"
+                        >
+                            <div class="task-list__item-details">
+                                <h3 class="task-list__item-title">{{ task.title }}</h3>
+                                <p class="task-list__item-deadline">{{ task.deadline }}</p>
+                            </div>
+                            <span class="task-list__item-status" :class="`task-list__item-status--${task.status.toLowerCase()}`">{{ task.status }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="js/tasks.js"></script>
+</body>
+</html>

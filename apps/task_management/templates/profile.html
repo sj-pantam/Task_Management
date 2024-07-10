@@ -1,0 +1,19 @@
+[[extend 'layout.html']]
+
+[[block page_head]]
+    <title>Profile</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <link rel="stylesheet" href="../static/css/profile.css">
+    <script src="../static/js/profile.js"></script>
+[[end]]
+
+[[block page_content]]
+    <div id="app">
+        <profile :username="username" :logged-in-username="loggedInUsername" :upload-url="uploadUrl"></profile>
+    </div>
+    <script>
+        window.username = '[[=username]]';
+        window.loggedInUsername = '[[=loggedInUsername]]';
+        window.uploadUrl = '[[=uploadUrl]]';
+    </script>
+[[end]]

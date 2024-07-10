@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create/Edit Task</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+    <div class="container" id="app">
+        <header>
+            <h1>Create/Edit Task</h1>
+            <button onclick="window.location.href='tasks.html'">Back to Tasks</button>
+        </header>
+        <main>
+            <form @submit.prevent="handleSubmit" id="task-form">
+                <label for="title">Title:</label>
+                <input type="text" v-model="taskData.title" id="title" required>
+                
+                <label for="description">Description:</label>
+                <textarea v-model="taskData.description" id="description" required></textarea>
+                
+                <label for="assigned_to">Assigned To:</label>
+                <select v-model="taskData.assigned_to" id="assigned_to" required>
+                    <option v-for="user in users" :value="user.id" :key="user.username">{{ user.first_name }} {{user.last_name}}</option>
+                </select>
+                
+                <label for="deadline">Deadline:</label>
+                <input type="date" v-model="taskData.deadline" id="deadline" required>
+                
+                <label for="status">Status:</label>
+                <select v-model="taskData.status" id="status" required>
+                    <option value="pending">Pending</option>
+                    <option value="acknowledged">Acknowledged</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="completed">Completed</option>
+                    <option value="failed">Failed</option>
+                </select>
+                
+                <button type="submit">{{ taskId ? 'Update' : 'Create' }} Task</button>
+            </form>
+            <p v-if="errorMessage">{{ errorMessage }}</p>
+        </main>
+    </div>
+    <script src="js/create_tasks.js"></script>
+</body>
+</html>
